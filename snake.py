@@ -66,8 +66,7 @@ class Application:
         self.head = self.canvas.create_text(tuple(head_position), text='ö')
         self.head_position = head_position
         self.spawn_food()
-
-        self.master.after(100, self.tick)
+        self.tick()
 
     def spawn_food(self):
         width = self.canvas.winfo_width()
