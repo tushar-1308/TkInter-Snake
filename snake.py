@@ -2,6 +2,7 @@ import random
 import string
 import tkinter
 
+HEAD_CHARACTER = 'ö'
 FOOD_CHARACTERS = string.ascii_letters
 
 
@@ -29,6 +30,7 @@ class Application:
 
         self.canvas = tkinter.Canvas(self.master)
         self.canvas.grid(sticky=tkinter.NSEW)
+
         self.start_button = tkinter.Button(self.master, text='Start', command=self.on_start)
         self.start_button.grid(sticky=tkinter.EW)
 
@@ -61,9 +63,10 @@ class Application:
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
 
+        self.canvas.create_rectangle(10, 10, width-10, height-10)
         self.direction = random.choice('wasd')
         head_position = [round(width // 2, -1), round(height // 2, -1)]
-        self.head = self.canvas.create_text(tuple(head_position), text='ö')
+        self.head = self.canvas.create_text(tuple(head_position), text=HEAD_CHARACTER)
         self.head_position = head_position
         self.spawn_food()
         self.tick()
@@ -97,8 +100,8 @@ class Application:
             self.head_position[0] += 10
 
         head_position = tuple(self.head_position)
-        if (self.head_position[0] < 0 or self.head_position[0] >= width or
-            self.head_position[1] < 0 or self.head_position[1] >= height or
+        if (self.head_position[0] < 10 or self.head_position[0] >= width-10 or
+            self.head_position[1] < 10 or self.head_position[1] >= height-10 or
             any(segment_position == head_position for segment_position in self.segment_positions)):
             self.game_over()
             return
@@ -107,20 +110,9 @@ class Application:
             self.canvas.coords(self.food, previous_head_position)
             self.segments.append(self.food)
             self.segment_positions.append(previous_head_position)
-
             self.spawn_food()
-        elif self.segments:
-            # This would create strange (neat) effects if the order of
-            # consumption of different food was displayed in the body
-            # segments. It's also more efficient than the solution below
-            # but not quite as true to the original Snake
-            #self.segment_positions.pop(0)
-            #last_segment = self.segments.pop(0)
-            #self.canvas.coords(last_segment, previous_head_position)
 
-            #self.segments.append(last_segment)
-            #self.segment_positions.append(previous_head_position)
-
+        if self.segments:
             previous_position = previous_head_position
             for index, (segment, position) in enumerate(zip(self.segments, self.segment_positions)):
                 self.canvas.coords(segment, previous_position)
@@ -131,7 +123,7 @@ class Application:
         self.moved = True
 
         if self.running:
-            self.canvas.after(100, self.tick)
+            self.canvas.after(50, self.tick)
 
     def game_over(self):
         width = self.canvas.winfo_width()
