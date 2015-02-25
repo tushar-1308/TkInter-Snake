@@ -76,9 +76,9 @@ class Application:
         height = self.canvas.winfo_height()
         positions = [tuple(self.head_position), self.food_position] + self.segment_positions
 
-        position = (round(random.randint(10, width-10), -1), round(random.randint(10, height-10), -1))
+        position = (round(random.randint(20, width-20), -1), round(random.randint(20, height-20), -1))
         while position in positions:
-            position = (round(random.randint(10, width-10), -1), round(random.randint(10, height-10), -1))
+            position = (round(random.randint(20, width-20), -1), round(random.randint(20, height-20), -1))
 
         character = random.choice(FOOD_CHARACTERS)
         self.food = self.canvas.create_text(position, text=character)
