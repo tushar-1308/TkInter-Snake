@@ -1,9 +1,9 @@
-TkInter Snake
+An amazing Tkinter Snake Game
 =============
 
-A really simple snake clone using Python 3 and TkInter. Controls are WASD.
+A really simple snake clone in Python 3 using TkInter. Controls are WASD.
 
 Screenshots
------------
+==========
 
 ![](http://i.imgur.com/2DBNXdc.gif)
